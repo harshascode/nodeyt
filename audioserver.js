@@ -1,8 +1,8 @@
 const express = require('express');
-const { exec } = require('child_process');
-const { Readable, pipeline } = require('stream'); // Import pipeline
+const { execFile } = require('child_process');
+
 const app = express();
-const PORT = 3001; // Matches your log configuration
+const PORT = 3001;
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -12,66 +12,55 @@ app.use((req, res, next) => {
 
 app.use(express.static('public'));
 
-app.get('/api/download', async (req, res) => {
+// Helper function to extract the real IP address of the user
+function getClientIp(req) {
+    const xForwardedFor = req.headers['x-forwarded-for'];
+    if (xForwardedFor) {
+        return xForwardedFor.split(',')[0].trim();
+    }
+    return req.socket.remoteAddress || '127.0.0.1';
+}
+
+app.get('/api/download', (req, res) => {
     const videoUrl = req.query.url;
 
     if (!videoUrl) {
         return res.status(400).json({ error: 'Missing "url" query parameter' });
     }
 
-    const command = `yt-dlp -f 140 -j "${videoUrl}"`;
+    const userIp = getClientIp(req);
+    console.log(`Generating direct audio link for IP: ${userIp}`);
 
-    exec(command, async (error, stdout, stderr) => {
+    // Using the optimized arguments to bypass IP locks
+    const args = [
+        '--get-url',                                 // Return just the URL, no JSON parsing needed
+        '-f', '140',                                 // M4A audio format
+        '--add-header', `X-Forwarded-For:${userIp}`, // Inject user's IP
+        '--add-header', `X-Real-IP:${userIp}`,       // Inject user's IP
+        '--extractor-args', 'youtube:player_client=ios,tv,default', // Client emulation
+        // '--force-ipv6', 
+        videoUrl
+    ];
+
+    execFile('yt-dlp', args, (error, stdout, stderr) => {
         if (error) {
-            console.error(`yt-dlp Error: ${error.message}`);
-            return res.status(500).json({ error: 'Failed to extract audio details.' });
+            console.error(`yt-dlp Error: ${stderr || error.message}`);
+            return res.status(500).json({ error: 'Failed to extract audio link.' });
         }
 
-        try {
-            const videoData = JSON.parse(stdout);
-            const directGooglevideoUrl = videoData.url;
-            const youtubeHeaders = videoData.http_headers;
-            const cleanTitle = (videoData.title || 'audio').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        const directGooglevideoUrl = stdout.trim();
 
-            res.setHeader('Content-Disposition', `attachment; filename="${cleanTitle}.m4a"`);
-            res.setHeader('Content-Type', 'audio/mp4');
-
-            console.log(`Piping audio stream for: ${videoData.title}`);
-
-            const googleResponse = await fetch(directGooglevideoUrl, {
-                headers: youtubeHeaders
-            });
-
-            if (!googleResponse.ok) {
-                return res.status(googleResponse.status).send('Google CDN rejected the request.');
-            }
-
-            // Convert the Web Stream to a Node stream structure
-            const nodeStream = Readable.fromWeb(googleResponse.body);
-
-            // Use pipeline instead of .pipe() to safely catch network drops
-            pipeline(nodeStream, res, (err) => {
-                if (err) {
-                    // This blocks the crash! It safely catches the connection drop.
-                    if (err.code === 'ECONNRESET') {
-                        console.log(`ℹ️ Stream closed abruptly: Client disconnected or Google reset connection.`);
-                    } else {
-                        console.error('❌ Pipeline streaming error encountered:', err.message);
-                    }
-                } else {
-                    console.log(`✅ Transmission finished successfully for: ${videoData.title}`);
-                }
-            });
-
-        } catch (parseError) {
-            console.error('JSON Parse Error:', parseError);
-            if (!res.headersSent) {
-                res.status(500).json({ error: 'Failed to process audio metadata.' });
-            }
+        if (!directGooglevideoUrl || !directGooglevideoUrl.includes('googlevideo.com')) {
+            return res.status(500).json({ error: 'Failed to retrieve a valid googlevideo.com link.' });
         }
+
+        console.log(`Successfully generated direct audio link. Redirecting client...`);
+
+        // Redirect the client's browser directly to Google's server
+        res.redirect(directGooglevideoUrl);
     });
 });
 
 app.listen(PORT, () => {
-    console.log(`M4A Audio Downloader backend running at http://localhost:${PORT}`);
+    console.log(`Zero-Bandwidth Audio Engine running at http://localhost:${PORT}`);
 });

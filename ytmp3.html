@@ -340,33 +340,35 @@
                 href="/bookmarklet/">Bookmarklet</a></div>
     </div>
     <form autocomplete="off" method="post" onsubmit="event.preventDefault(); handleFormSubmit();">
-    <div class="form_title"><label for="video">Paste your YouTube link</label></div>
-    
-    <!-- Standard Input (Visible by default) -->
-    <div class="form_input" id="inputContainer">
-        <input id="videoUrl" type="text" name="video" placeholder="youtube.com/watch?v=Y2MaTeR0cKs" required autofocus>
-    </div>
+        <div class="form_title"><label for="video">Paste your YouTube link</label></div>
 
-    <!-- Progress/Status Area (Replaces input, hidden by default) -->
-    <div class="form_input--progress" id="progressContainer" style="display: none;">
-        <div class="form__loader" id="spinner"></div>
-        <span id="status"></span>
-    </div>
-    
-    <div class="form_actions">
-        <!-- Format Toggle (Visible by default) -->
-        <div class="form_formats" id="formatToggle">
-            <button type="button" class="format-btn active" data-format="mp3">MP3</button>
-            <button type="button" class="format-btn" data-format="mp4">MP4</button>
+        <!-- Standard Input (Visible by default) -->
+        <div class="form_input" id="inputContainer">
+            <input id="videoUrl" type="text" name="video" placeholder="youtube.com/watch?v=Y2MaTeR0cKs" required
+                autofocus>
         </div>
 
-        <!-- Download More Button (Hidden by default, reloads page on click) -->
-        <button type="button" class="more" id="downloadMoreBtn" style="display: none;" onclick="window.location.reload();">Download More</button>
+        <!-- Progress/Status Area (Replaces input, hidden by default) -->
+        <div class="form_input--progress" id="progressContainer" style="display: none;">
+            <div class="form__loader" id="spinner"></div>
+            <span id="status"></span>
+        </div>
 
-        <!-- Main Download Button -->
-        <button type="submit" id="downloadBtn">Download</button>
-    </div>
-</form>
+        <div class="form_actions">
+            <!-- Format Toggle (Visible by default) -->
+            <div class="form_formats" id="formatToggle">
+                <button type="button" class="format-btn active" data-format="mp3">MP3</button>
+                <button type="button" class="format-btn" data-format="mp4">MP4</button>
+            </div>
+
+            <!-- Download More Button (Hidden by default, reloads page on click) -->
+            <button type="button" class="more" id="downloadMoreBtn" style="display: none;"
+                onclick="window.location.reload();">Download More</button>
+
+            <!-- Main Download Button -->
+            <button type="submit" id="downloadBtn">Download</button>
+        </div>
+    </form>
     <div class="text">
         <h1>YouTube to MP3 Converter</h1>
         <p>Y2Mate is an online YouTube to MP3 converter that allows you to download YouTube videos as MP3 or MP4 files.
@@ -392,73 +394,73 @@
     <script
         type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Y2Mate","alternateName":["YouTube MP3","YouTube to MP3","YouTube to MP3 Converter","YouTube Converter","YouTube Downloader","y2mate.nu"],"url":"https://v3.y2mate.nu/"}</script>
     <script>
-// 1. Handle the MP3/MP4 Toggle
-const formatButtons = document.querySelectorAll('.format-btn');
+        // 1. Handle the MP3/MP4 Toggle
+        const formatButtons = document.querySelectorAll('.format-btn');
 
-formatButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        formatButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-    });
-});
+        formatButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                formatButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
-// 2. Form Submission Handler
-function handleFormSubmit() {
-    const urlInput = document.getElementById('videoUrl').value.trim();
-    if (!urlInput) return; // Prevent action if empty
+        // 2. Form Submission Handler
+        function handleFormSubmit() {
+            const urlInput = document.getElementById('videoUrl').value.trim();
+            if (!urlInput) return; // Prevent action if empty
 
-    // Lock the main download button
-    const mainBtn = document.getElementById('downloadBtn');
-    mainBtn.disabled = true;
-    mainBtn.style.opacity = '0.4'; 
-    mainBtn.style.cursor = 'not-allowed'; 
+            // Lock the main download button
+            const mainBtn = document.getElementById('downloadBtn');
+            mainBtn.disabled = true;
+            mainBtn.style.opacity = '0.4';
+            mainBtn.style.cursor = 'not-allowed';
 
-    // Swap the MP3/MP4 toggle with the "Download More" button
-    document.getElementById('formatToggle').style.display = 'none';
-    document.getElementById('downloadMoreBtn').style.display = 'block';
+            // Swap the MP3/MP4 toggle with the "Download More" button
+            document.getElementById('formatToggle').style.display = 'none';
+            document.getElementById('downloadMoreBtn').style.display = 'block';
 
-    // Hide the input box and show the progress box in its place
-    document.getElementById('inputContainer').style.display = 'none';
-    document.getElementById('progressContainer').style.display = 'flex';
-    document.getElementById('spinner').style.display = 'block';
+            // Hide the input box and show the progress box in its place
+            document.getElementById('inputContainer').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'flex';
+            document.getElementById('spinner').style.display = 'block';
 
-    // Route to the correct download function based on active button
-    const activeFormat = document.querySelector('.format-btn.active').getAttribute('data-format');
-    if (activeFormat === 'mp4') {
-        triggerVideoDownload(urlInput);
-    } else {
-        triggerAudioDownload(urlInput);
-    }
-}
+            // Route to the correct download function based on active button
+            const activeFormat = document.querySelector('.format-btn.active').getAttribute('data-format');
+            if (activeFormat === 'mp4') {
+                triggerVideoDownload(urlInput);
+            } else {
+                triggerAudioDownload(urlInput);
+            }
+        }
 
-// 3. Download Functions
-function triggerVideoDownload(urlInput) {
-    const statusDiv = document.getElementById('status');
-    statusDiv.innerText = "Processing video... Please wait.";
+        // 3. Download Functions
+        function triggerVideoDownload(urlInput) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerText = "Processing video... Please wait.";
 
-    const apiUrl = `http://localhost:3000/api/download?url=${encodeURIComponent(urlInput)}`;
-    window.location.href = apiUrl;
+            const apiUrl = `http://localhost:3000/api/download?url=${encodeURIComponent(urlInput)}`;
+            window.location.href = apiUrl;
 
-    // Hide spinner and update text after handoff completes
-    setTimeout(() => {
-        document.getElementById('spinner').style.display = 'none';
-        statusDiv.innerText = "Download initiated!";
-    }, 4000);
-}
+            // Hide spinner and update text after handoff completes
+            setTimeout(() => {
+                document.getElementById('spinner').style.display = 'none';
+                statusDiv.innerText = "Download initiated!";
+            }, 4000);
+        }
 
-function triggerAudioDownload(urlInput) {
-    const statusDiv = document.getElementById('status');
-    statusDiv.innerText = "Extracting audio... Please wait.";
+        function triggerAudioDownload(urlInput) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerText = "Extracting audio... Please wait.";
 
-    const apiUrl = `http://localhost:3001/api/download?url=${encodeURIComponent(urlInput)}`;
-    window.location.href = apiUrl;
+            const apiUrl = `http://localhost:3001/api/download?url=${encodeURIComponent(urlInput)}`;
+            window.location.href = apiUrl;
 
-    // Hide spinner and update text after handoff completes
-    setTimeout(() => {
-        document.getElementById('spinner').style.display = 'none';
-        statusDiv.innerText = "Audio stream dispatched!";
-    }, 4000);
-}
+            // Hide spinner and update text after handoff completes
+            setTimeout(() => {
+                document.getElementById('spinner').style.display = 'none';
+                statusDiv.innerText = "Audio stream dispatched!";
+            }, 4000);
+        }
     </script>
 </body>
 

@@ -1,0 +1,465 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description"
+        content="Download YouTube videos as MP3 or MP4 files with our online YouTube to MP3 converter. Y2Mate does not require any sign-up, subscription, or software.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y2Mate - Free YouTube to MP3 Converter</title>
+    <link rel="canonical" href="https://v3.y2mate.nu/">
+    <link rel="alternate" hreflang="en" href="https://v3.y2mate.nu/">
+    <link rel="alternate" hreflang="es" href="https://v3.y2mate.nu/es/">
+    <link rel="alternate" hreflang="fr" href="https://v3.y2mate.nu/fr/">
+    <link rel="alternate" hreflang="it" href="https://v3.y2mate.nu/it/">
+    <link rel="alternate" hreflang="pt" href="https://v3.y2mate.nu/pt/">
+    <link rel="alternate" hreflang="x-default" href="https://v3.y2mate.nu/">
+    <style>
+        body {
+            background-color: #fafafa;
+            background-image: linear-gradient(#121212 168px, transparent 168px);
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        input,
+        button {
+            font-family: inherit;
+        }
+
+        .header {
+            max-width: 640px;
+            margin: 0 auto;
+            padding-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header span {
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        .header a {
+            color: #b4b4b4;
+            text-decoration: none;
+            margin-right: 16px;
+        }
+
+        .header a:last-child {
+            margin-right: 0;
+        }
+
+        form {
+            background-color: #ffffff;
+            max-width: 640px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+            margin: 32px auto 0 auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-sizing: border-box;
+        }
+
+        form button,
+        form input {
+            height: 48px;
+            border-radius: 6px;
+        }
+
+        .form_title {
+            color: #363636;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .form_input input {
+            color: #595959;
+            background-color: #fafafa;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #e2e2e2;
+            padding: 0 12px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form_actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form_formats {
+            background-color: #fafafa;
+            border: 1px solid #e2e2e2;
+            height: 48px;
+            border-radius: 6px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-sizing: border-box;
+        }
+
+        .form_formats button[type="button"] {
+            color: #494949;
+            background-color: transparent;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            height: 34px;
+            padding: 0 24px;
+            cursor: pointer;
+        }
+
+        .form_formats button[type="button"].active {
+            color: #ffffff;
+            background-color: #121212;
+        }
+
+        .form_actions button[type="submit"] {
+            color: #ffffff;
+            background-color: #d62828;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            padding: 0 24px;
+        }
+
+        .form_input--progress {
+            color: #595959;
+            background-color: #fafafa;
+            width: 100%;
+            height: 48px;
+            border: 1px solid #e2e2e2;
+            border-radius: 6px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: left;
+            box-sizing: border-box;
+        }
+
+        .form__loader {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e2e2e2;
+            border-top-color: #d62828;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .more {
+            color: #363636;
+            background-color: #ffffff;
+            font-size: 16px;
+            border: 1px solid #e2e2e2;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
+        .form_actions--download {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form_actions--download button.more {
+            color: #363636;
+            background-color: #ffffff;
+            font-size: 16px;
+            border: 1px solid #e2e2e2;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
+        .form_actions--download button.more:disabled {
+            color: #b4b4b4;
+            background-color: #fafafa;
+            cursor: not-allowed;
+        }
+
+        .form_actions--download button.download {
+            color: #ffffff;
+            background-color: #d62828;
+            font-size: 16px;
+            border: none;
+            padding: 0 24px;
+            cursor: pointer;
+        }
+
+        .form_actions--download button.download:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        .form__error--title {
+            color: #363636;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 16px;
+        }
+
+        .form__error--message {
+            color: #595959;
+            background-color: #fafafa;
+            font-size: 16px;
+            line-height: 48px;
+            height: 48px;
+            border: 1px solid #e2e2e2;
+            border-radius: 6px;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .form__error--button {
+            display: flex;
+            justify-content: right;
+        }
+
+        .form__error--button button {
+            color: #ffffff;
+            background-color: #d62828;
+            font-size: 16px;
+            border: none;
+            padding: 0 24px;
+            cursor: pointer;
+        }
+
+        .text {
+            color: #494949;
+            max-width: 640px;
+            margin: 48px auto 0 auto;
+        }
+
+        .text h1 {
+            color: #363636;
+            font-size: 24px;
+            line-height: 24px;
+            margin: 0;
+        }
+
+        .text h2 {
+            color: #363636;
+            font-size: 20px;
+            line-height: 20px;
+            margin: 24px 0 16px 0;
+        }
+
+        .text p {
+            font-size: 14px;
+            line-height: 24px;
+            margin: 16px 0 0 0;
+        }
+
+        .text p.b {
+            font-weight: bold;
+        }
+
+        .text a {
+            color: #494949;
+        }
+
+        .text ol {
+            list-style-position: inside;
+            margin: 8px 0 0 0;
+            padding: 0;
+        }
+
+        .text li {
+            line-height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .text li::marker {
+            font-weight: bold;
+        }
+
+        .text li:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            border-top: 1px solid #e2e2e2;
+            margin-top: 48px;
+        }
+
+        .footer div {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 24px 0;
+        }
+
+        .footer a {
+            color: #363636;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        @media (max-width:640px) {
+            .header {
+                padding: 16px 4% 0 4%;
+            }
+
+            .header a:nth-of-type(3),
+            .header a:nth-of-type(4) {
+                display: none;
+            }
+
+            form {
+                margin: 32px 4% 0 4%;
+            }
+
+            .text {
+                margin: 48px 4% 0 4%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div><span>Y2Mate</span></div>
+        <div><a href="/">Home</a><a href="/faq/">FAQ</a><a href="/add-on/">Add-On</a><a
+                href="/bookmarklet/">Bookmarklet</a></div>
+    </div>
+    <form autocomplete="off" method="post" onsubmit="event.preventDefault(); handleFormSubmit();">
+    <div class="form_title"><label for="video">Paste your YouTube link</label></div>
+    
+    <!-- Standard Input (Visible by default) -->
+    <div class="form_input" id="inputContainer">
+        <input id="videoUrl" type="text" name="video" placeholder="youtube.com/watch?v=Y2MaTeR0cKs" required autofocus>
+    </div>
+
+    <!-- Progress/Status Area (Replaces input, hidden by default) -->
+    <div class="form_input--progress" id="progressContainer" style="display: none;">
+        <div class="form__loader" id="spinner"></div>
+        <span id="status"></span>
+    </div>
+    
+    <div class="form_actions">
+        <!-- Format Toggle (Visible by default) -->
+        <div class="form_formats" id="formatToggle">
+            <button type="button" class="format-btn active" data-format="mp3">MP3</button>
+            <button type="button" class="format-btn" data-format="mp4">MP4</button>
+        </div>
+
+        <!-- Download More Button (Hidden by default, reloads page on click) -->
+        <button type="button" class="more" id="downloadMoreBtn" style="display: none;" onclick="window.location.reload();">Download More</button>
+
+        <!-- Main Download Button -->
+        <button type="submit" id="downloadBtn">Download</button>
+    </div>
+</form>
+    <div class="text">
+        <h1>YouTube to MP3 Converter</h1>
+        <p>Y2Mate is an online YouTube to MP3 converter that allows you to download YouTube videos as MP3 or MP4 files.
+            Our converter is free to use and does not require any sign-up or subscription. Y2Mate is optimized to work
+            in all common browsers and on all devices without the installation of any app or software. By using our
+            service, you accept our <a href="/terms-of-use/">Terms of Use</a>.</p>
+        <h2>How to download a YouTube video</h2>
+        <ol>
+            <li>Go to YouTube and find a video you would like to download.</li>
+            <li>Copy the video link.</li>
+            <li>Paste the video link into our converter above.</li>
+            <li>Select a download format. You can choose between MP3 and MP4.</li>
+            <li>Click the Convert button.</li>
+            <li>The conversion will start and may take a while. As soon as the process is finished, you will be able to
+                download the YouTube video in your chosen format.</li>
+        </ol>
+        <p>Thank you for using our YouTube to MP3 Converter.</p>
+    </div>
+    <div class="footer">
+        <div><a href="/contact/">Contact</a><a href="/copyright-claims/">Copyright Claims</a><a
+                href="/privacy-policy/">Privacy Policy</a><a href="/terms-of-use/">ToU</a></div>
+    </div>
+    <script
+        type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Y2Mate","alternateName":["YouTube MP3","YouTube to MP3","YouTube to MP3 Converter","YouTube Converter","YouTube Downloader","y2mate.nu"],"url":"https://v3.y2mate.nu/"}</script>
+    <script>
+// 1. Handle the MP3/MP4 Toggle
+const formatButtons = document.querySelectorAll('.format-btn');
+
+formatButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        formatButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+// 2. Form Submission Handler
+function handleFormSubmit() {
+    const urlInput = document.getElementById('videoUrl').value.trim();
+    if (!urlInput) return; // Prevent action if empty
+
+    // Lock the main download button
+    const mainBtn = document.getElementById('downloadBtn');
+    mainBtn.disabled = true;
+    mainBtn.style.opacity = '0.4'; 
+    mainBtn.style.cursor = 'not-allowed'; 
+
+    // Swap the MP3/MP4 toggle with the "Download More" button
+    document.getElementById('formatToggle').style.display = 'none';
+    document.getElementById('downloadMoreBtn').style.display = 'block';
+
+    // Hide the input box and show the progress box in its place
+    document.getElementById('inputContainer').style.display = 'none';
+    document.getElementById('progressContainer').style.display = 'flex';
+    document.getElementById('spinner').style.display = 'block';
+
+    // Route to the correct download function based on active button
+    const activeFormat = document.querySelector('.format-btn.active').getAttribute('data-format');
+    if (activeFormat === 'mp4') {
+        triggerVideoDownload(urlInput);
+    } else {
+        triggerAudioDownload(urlInput);
+    }
+}
+
+// 3. Download Functions
+function triggerVideoDownload(urlInput) {
+    const statusDiv = document.getElementById('status');
+    statusDiv.innerText = "Processing video... Please wait.";
+
+    const apiUrl = `http://localhost:3000/api/download?url=${encodeURIComponent(urlInput)}`;
+    window.location.href = apiUrl;
+
+    // Hide spinner and update text after handoff completes
+    setTimeout(() => {
+        document.getElementById('spinner').style.display = 'none';
+        statusDiv.innerText = "Download initiated!";
+    }, 4000);
+}
+
+function triggerAudioDownload(urlInput) {
+    const statusDiv = document.getElementById('status');
+    statusDiv.innerText = "Extracting audio... Please wait.";
+
+    const apiUrl = `http://localhost:3001/api/download?url=${encodeURIComponent(urlInput)}`;
+    window.location.href = apiUrl;
+
+    // Hide spinner and update text after handoff completes
+    setTimeout(() => {
+        document.getElementById('spinner').style.display = 'none';
+        statusDiv.innerText = "Audio stream dispatched!";
+    }, 4000);
+}
+    </script>
+</body>
+
+</html>

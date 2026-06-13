@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Audio Extractor</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f172a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 420px;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 18px 0;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        input:focus {
+            outline: 2px solid #2563eb;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="margin-top: 0; color: #38bdf8;">YouTube Audio Extractor</h2>
+    <p style="font-size: 13px; color: #94a3b8;">Extracts high-quality .m4a audio straight from Google</p>
+    <input type="text" id="videoUrl" placeholder="Paste YouTube link here...">
+    <button id="downloadBtn" onclick="triggerAudioDownload()">Download M4A Audio</button>
+    <div id="status"></div>
+</div>
+
+<script>
+    function triggerAudioDownload() {
+        const urlInput = document.getElementById('videoUrl').value.trim();
+        const statusDiv = document.getElementById('status');
+        const btn = document.getElementById('downloadBtn');
+
+        if (!urlInput) {
+            statusDiv.innerText = "Please input a link first.";
+            return;
+        }
+
+        statusDiv.innerText = "Extracting audio track from YouTube...";
+        btn.disabled = true;
+
+        // Route URL payload directly to backend API
+        const apiUrl = `http://localhost:3001/api/download?url=${encodeURIComponent(urlInput)}`;
+
+        // Force browser to handle stream as an immediate file download
+        window.location.href = apiUrl;
+
+        // Re-enable button after handoff completes
+        setTimeout(() => {
+            btn.disabled = false;
+            statusDiv.innerText = "Audio stream dispatched!";
+        }, 4000);
+    }
+</script>
+
+</body>
+</html>

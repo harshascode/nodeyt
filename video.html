@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero-403 YT Downloader</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 400px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #333;
+            background: #2a2a2a;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>YouTube Downloader</h2>
+    <p style="font-size: 13px; color: #888;">Downloads 360p MP4 bypasses 403 blocks</p>
+    <input type="text" id="videoUrl" placeholder="Paste YouTube Video URL here...">
+    <button id="downloadBtn" onclick="triggerDownload()">Download Video</button>
+    <div id="status"></div>
+</div>
+
+<script>
+    function triggerDownload() {
+        const urlInput = document.getElementById('videoUrl').value.trim();
+        const statusDiv = document.getElementById('status');
+        const btn = document.getElementById('downloadBtn');
+
+        if (!urlInput) {
+            statusDiv.innerText = "Please enter a valid URL.";
+            return;
+        }
+
+        statusDiv.innerText = "Processing video streams... Please wait.";
+        btn.disabled = true;
+
+        // Point directly to your Express route setup
+        const apiUrl = `http://localhost:3000/api/download?url=${encodeURIComponent(urlInput)}`;
+
+        // Instead of a fetch request (which handles data in javascript memory), 
+        // assigning window.location.href tells the browser to navigate to the link.
+        // Because the server sends an 'attachment' header, the browser will instantly download it as a file.
+        window.location.href = apiUrl;
+
+        // Reset UI state after a few seconds assuming the handoff worked
+        setTimeout(() => {
+            btn.disabled = false;
+            statusDiv.innerText = "Download initiated!";
+        }, 4000);
+    }
+</script>
+
+</body>
+</html>

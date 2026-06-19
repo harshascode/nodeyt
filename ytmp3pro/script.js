@@ -14,6 +14,21 @@ const LANGUAGE_PATHS = {
     tr: '/tr/',
     nl: '/nl/',
     id: '/id/',
+    pl: '/pl/',
+    vi: '/vi/',
+    th: '/th/',
+    fa: '/fa/',
+    ur: '/ur/',
+    bn: '/bn/',
+    ta: '/ta/',
+    te: '/te/',
+    mr: '/mr/',
+    ms: '/ms/',
+    sv: '/sv/',
+    no: '/no/',
+    da: '/da/',
+    fi: '/fi/',
+    he: '/he/',
 };
 
 function getSavedLanguagePath() {
@@ -43,6 +58,23 @@ function detectBrowserLanguagePath() {
         if (code.startsWith('tr')) return LANGUAGE_PATHS.tr;
         if (code.startsWith('nl')) return LANGUAGE_PATHS.nl;
         if (code.startsWith('id')) return LANGUAGE_PATHS.id;
+        if (code.startsWith('pl')) return LANGUAGE_PATHS.pl;
+        if (code.startsWith('vi')) return LANGUAGE_PATHS.vi;
+        if (code.startsWith('th')) return LANGUAGE_PATHS.th;
+        if (code.startsWith('fa')) return LANGUAGE_PATHS.fa;
+        if (code.startsWith('ur')) return LANGUAGE_PATHS.ur;
+        if (code.startsWith('bn')) return LANGUAGE_PATHS.bn;
+        if (code.startsWith('ta')) return LANGUAGE_PATHS.ta;
+        if (code.startsWith('te')) return LANGUAGE_PATHS.te;
+        if (code.startsWith('mr')) return LANGUAGE_PATHS.mr;
+        if (code.startsWith('ms')) return LANGUAGE_PATHS.ms;
+        if (code.startsWith('sv')) return LANGUAGE_PATHS.sv;
+        if (code.startsWith('no')) return LANGUAGE_PATHS.no;
+        if (code.startsWith('nb')) return LANGUAGE_PATHS.no;
+        if (code.startsWith('nn')) return LANGUAGE_PATHS.no;
+        if (code.startsWith('da')) return LANGUAGE_PATHS.da;
+        if (code.startsWith('fi')) return LANGUAGE_PATHS.fi;
+        if (code.startsWith('he')) return LANGUAGE_PATHS.he;
         if (code.startsWith('en')) return LANGUAGE_PATHS.en;
     }
 

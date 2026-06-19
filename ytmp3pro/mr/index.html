@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html lang="mr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="आमच्या ऑनलाइन YouTube ते MP3 कन्वर्टरद्वारे YouTube व्हिडिओ MP3 किंवा MP4 फाइल्स म्हणून डाउनलोड करा. Ytmp3 साठी साइन-अप, सदस्यता किंवा सॉफ्टवेअरची गरज नाही.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ytmp3 - मोफत YouTube ते MP3 कन्वर्टर</title>
+
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+    <link rel="shortcut icon" href="/public/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="YtMp3">
+    <link rel="manifest" href="/public/site.webmanifest">
+
+    <link rel="canonical" href="https://ytmp3.pro/mr/">
+    <link rel="stylesheet" href="/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W46PKWV3E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-W46PKWV3E5');
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <div>
+
+            <a href="/mr/" style="display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#155dfc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cat-icon lucide-cat">
+                    <g style="transform-box:fill-box;transform-origin:12px 12px;animation:bob 3s ease-in-out infinite">
+                        <path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7s4.72.23 6.5 2.23A9 9 0 0 1 12 5"></path>
+                        <path d="M8 14v.5m8-.5v.5" style="transform-box:fill-box;transform-origin:center;animation:blink 4s ease-in-out infinite"></path>
+                        <path d="M11.25 16.25h1.5L12 17z"></path>
+                    </g>
+                </svg>
+                <span style="font-weight: 600;">YTMP3<span style="color: rgb(78, 78, 238); font-style: italic;">.pro</span></span>
+            </a>
+        </div>
+        <div><a href="/mr/">मुख्यपृष्ठ</a><a href="/faq/">FAQ</a><a href="/bookmarklet/">बुकमार्कलेट</a><div class="lang-switcher"><select class="lang-select" aria-label="Language selector" onchange="localStorage.setItem('ytmp3-lang', this.value); if (this.value) window.location.href = this.value;"><option value="/">English</option><option value="/hi/">हिन्दी</option><option value="/fr/">Français</option><option value="/es/">Español</option><option value="/de/">Deutsch</option><option value="/pt/">Português</option><option value="/ru/">Русский</option><option value="/ja/">日本語</option><option value="/ko/">한국어</option><option value="/zh/">中文</option><option value="/ar/">العربية</option><option value="/it/">Italiano</option><option value="/tr/">Türkçe</option><option value="/nl/">Nederlands</option><option value="/id/">Bahasa Indonesia</option><option value="/pl/">Polski</option><option value="/vi/">Tiếng Việt</option><option value="/th/">ไทย</option><option value="/fa/">فارسی</option><option value="/ur/">اردو</option><option value="/bn/">বাংলা</option><option value="/ta/">தமிழ்</option><option value="/te/">తెలుగు</option><option value="/mr/" selected>मराठी</option><option value="/ms/">Bahasa Melayu</option><option value="/sv/">Svenska</option><option value="/no/">Norsk</option><option value="/da/">Dansk</option><option value="/fi/">Suomi</option><option value="/he/">עברית</option></select></div></div>
+    </div>
+    <form autocomplete="off" method="post" onsubmit="event.preventDefault(); handleFormSubmit();">
+        <div class="form_title"><label for="video">तुमची YouTube लिंक पेस्ट करा</label></div>
+
+        <!-- Standard Input (Visible by default) -->
+        <div class="form_input" id="inputContainer">
+            <input id="videoUrl" type="text" name="video" placeholder="youtube.com/watch?v=ytmp3" required autofocus>
+        </div>
+
+        <!-- Progress/Status Area (Replaces input, hidden by default) -->
+        <div class="form_input--progress" id="progressContainer" style="display: none;">
+            <div class="form_loader" id="spinner"></div>
+            <span id="status"></span>
+        </div>
+
+        <div class="video_preview" id="videoPreview" style="display: none;">
+            <img id="videoThumbnail" src="" alt="व्हिडिओ थंबनेल">
+            <div>
+                <h3 id="videoTitle">व्हिडिओ शीर्षक</h3>
+                <p id="videoAuthor">व्हिडिओ लेखक</p>
+                <p id="videoDuration">व्हिडिओ कालावधी</p>
+            </div>
+        </div>
+
+        <div class="form_actions">
+            <!-- Format Toggle (Visible by default) -->
+            <div class="form_formats" id="formatToggle">
+                <button type="button" class="format-btn active" data-format="mp3">MP3</button>
+                <button type="button" class="format-btn" data-format="mp4">MP4</button>
+            </div>
+
+            <!-- Download More Button (Hidden by default, reloads page on click) -->
+            <button type="button" class="more" id="downloadMoreBtn" style="display: none;" onclick="window.location.reload();">अधिक डाउनलोड करा</button>
+
+            <!-- Main Download Button -->
+            <button type="submit" id="downloadBtn">डाउनलोड</button>
+        </div>
+    </form>
+    <div class="text">
+        <h1>YouTube ते MP3 कन्वर्टर</h1>
+        <p>Ytmp3 हे एक ऑनलाइन YouTube ते MP3 कन्वर्टर आहे जे तुम्हाला YouTube व्हिडिओ MP3 किंवा MP4 फाइल्स म्हणून डाउनलोड करू देते. आमचे कन्वर्टर विनामूल्य आहे आणि त्यासाठी साइन-अप किंवा सदस्यता आवश्यक नाही. कोणतेही अॅप किंवा सॉफ्टवेअर न स्थापित करता सर्व सामान्य ब्राउझर आणि सर्व उपकरणांवर काम करण्यासाठी Ytmp3 अनुकूलित आहे. आमची सेवा वापरून, तुम्ही आमच्या <a href="/terms-of-use/">वापराच्या अटींना</a>.</p><h2>YouTube व्हिडिओ कसा डाउनलोड करावा</h2>
+        <ol>
+            <li>YouTube वर जा आणि तुम्हाला डाउनलोड करायचा व्हिडिओ शोधा.</li>
+            <li>व्हिडिओची लिंक कॉपी करा.</li>
+            <li>व्हिडिओ लिंक वरील कन्वर्टरमध्ये पेस्ट करा.</li>
+            <li>डाउनलोड फॉर्मॅट निवडा. तुम्ही MP3 आणि MP4 मधून निवड करू शकता.</li>
+            <li>Convert बटणावर क्लिक करा.</li>
+            <li>कन्व्हर्जन सुरू होईल आणि थोडा वेळ लागू शकतो. प्रक्रिया पूर्ण झाल्यावर, तुम्ही निवडलेल्या फॉरमॅटमध्ये YouTube व्हिडिओ डाउनलोड करू शकता.</li>
+        </ol>
+        <p>आमचा YouTube ते MP3 कन्वर्टर वापरल्याबद्दल धन्यवाद.</p>
+    </div>
+    <div class="footer">
+        <div><a href="/contact/">संपर्क</a><a href="/copyright-claims/">कॉपीराइट दावे</a><a href="/privacy-policy/">गोपनीयता धोरण</a><a href="/terms-of-use/">वापराच्या अटी</a></div>
+    </div>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ytmp3","alternateName":["YouTube MP3","YouTube to MP3","YouTube to MP3 Converter","YouTube Converter","YouTube Downloader","ytmp3"],"url":"https://ytmp3.pro/mr/"}</script>
+
+    <script src="/script.js"></script>
+
+</body>
+
+</html>

@@ -107,8 +107,11 @@ formatButtons.forEach(button => {
     });
 });
 
-const SEARCH_API = 'https://hono-search-api.harshascode.deno.net/api/search';
+const SEARCH_API = 'https://hono-search-node.vercel.app/api/search';
+const OUTAGE_REDIRECT_URL = 'https://cnvmp3.com/';
 let currentVideoUrl = '';
+let outageRedirectTimer = null;
+let outageCountdownTimer = null;
 
 function extractVideoQuery(input) {
     try {
@@ -140,14 +143,51 @@ function setLoading(message) {
     document.getElementById('status').innerText = message;
 }
 
+function showOutagePopup() {
+    let overlay = document.getElementById('outageOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'outageOverlay';
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:99999;padding:16px;box-sizing:border-box;';
+        overlay.innerHTML = '<div style="background:#fff;max-width:420px;width:100%;border-radius:12px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25);font-family:Arial,sans-serif;text-align:center;"><h2 style="margin:0 0 12px;color:#121212;">Website currently unavailable</h2><p id="outageMessage" style="margin:0 0 8px;color:#4b4b4b;line-height:1.5;">Redirecting you to cnvmp3.com in 3 seconds...</p><p style="margin:0;color:#7a7a7a;font-size:13px;">Please wait while we move you to the working download page.</p></div>';
+        document.body.appendChild(overlay);
+    }
+    return overlay;
+}
+
+function startOutageRedirect() {
+    if (outageRedirectTimer || outageCountdownTimer) return;
+
+    const overlay = showOutagePopup();
+    const message = overlay.querySelector('#outageMessage');
+    let seconds = 3;
+    message.innerText = `Redirecting you to cnvmp3.com in ${seconds} seconds...`;
+
+    outageCountdownTimer = window.setInterval(() => {
+        seconds -= 1;
+        if (seconds <= 0) {
+            clearInterval(outageCountdownTimer);
+            outageCountdownTimer = null;
+            message.innerText = 'Redirecting now...';
+            window.location.href = OUTAGE_REDIRECT_URL;
+            return;
+        }
+        message.innerText = `Redirecting you to cnvmp3.com in ${seconds} seconds...`;
+    }, 1000);
+
+    outageRedirectTimer = window.setTimeout(() => {
+        window.location.href = OUTAGE_REDIRECT_URL;
+    }, 3000);
+}
+
 function setDownloadButtons() {
     const mainBtn = document.getElementById('downloadBtn');
     mainBtn.disabled = false;
     mainBtn.style.opacity = '1';
     mainBtn.style.cursor = 'pointer';
     mainBtn.type = 'button';
-    mainBtn.innerText = 'Download MP3';
-    mainBtn.onclick = () => triggerAudioDownload(currentVideoUrl);
+    mainBtn.innerText = 'Download';
+    mainBtn.onclick = startOutageRedirect;
 
     document.getElementById('formatToggle').style.display = 'none';
     document.getElementById('downloadMoreBtn').style.display = 'block';
@@ -205,11 +245,9 @@ async function handleFormSubmit() {
 
 // 3. Download Functions
 function triggerVideoDownload(urlInput) {
-    const apiUrl = `https://apiapi.ytmp3.pro/api/download?url=${encodeURIComponent(urlInput)}`;
-    window.location.href = apiUrl;
+    startOutageRedirect();
 }
 
 function triggerAudioDownload(urlInput) {
-    const apiUrl = `https://apiapi.ytmp3.pro/api/download?url=${encodeURIComponent(urlInput)}`;
-    window.location.href = apiUrl;
+    startOutageRedirect();
 }

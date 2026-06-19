@@ -1,3 +1,70 @@
+const LANGUAGE_PATHS = {
+    en: '/',
+    hi: '/hi/',
+    fr: '/fr/',
+    es: '/es/',
+    de: '/de/',
+    pt: '/pt/',
+    ru: '/ru/',
+    ja: '/ja/',
+    ko: '/ko/',
+    zh: '/zh/',
+    ar: '/ar/',
+    it: '/it/',
+    tr: '/tr/',
+    nl: '/nl/',
+    id: '/id/',
+};
+
+function getSavedLanguagePath() {
+    try {
+        return localStorage.getItem('ytmp3-lang') || '';
+    } catch (error) {
+        return '';
+    }
+}
+
+function detectBrowserLanguagePath() {
+    const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
+
+    for (const lang of langs) {
+        const code = String(lang || '').toLowerCase();
+        if (code.startsWith('hi')) return LANGUAGE_PATHS.hi;
+        if (code.startsWith('fr')) return LANGUAGE_PATHS.fr;
+        if (code.startsWith('es')) return LANGUAGE_PATHS.es;
+        if (code.startsWith('de')) return LANGUAGE_PATHS.de;
+        if (code.startsWith('pt')) return LANGUAGE_PATHS.pt;
+        if (code.startsWith('ru')) return LANGUAGE_PATHS.ru;
+        if (code.startsWith('ja')) return LANGUAGE_PATHS.ja;
+        if (code.startsWith('ko')) return LANGUAGE_PATHS.ko;
+        if (code.startsWith('zh')) return LANGUAGE_PATHS.zh;
+        if (code.startsWith('ar')) return LANGUAGE_PATHS.ar;
+        if (code.startsWith('it')) return LANGUAGE_PATHS.it;
+        if (code.startsWith('tr')) return LANGUAGE_PATHS.tr;
+        if (code.startsWith('nl')) return LANGUAGE_PATHS.nl;
+        if (code.startsWith('id')) return LANGUAGE_PATHS.id;
+        if (code.startsWith('en')) return LANGUAGE_PATHS.en;
+    }
+
+    return '';
+}
+
+function autoRedirectLanguage() {
+    const pathname = window.location.pathname;
+    if (pathname !== '/' && pathname !== '/index.html') return;
+
+    const saved = getSavedLanguagePath();
+    const preferred = saved || detectBrowserLanguagePath();
+    if (preferred && preferred !== '/') {
+        try {
+            localStorage.setItem('ytmp3-lang', preferred);
+        } catch (error) {}
+        window.location.replace(preferred);
+    }
+}
+
+autoRedirectLanguage();
+
 // 1. Handle the MP3/MP4 Toggle
 const formatButtons = document.querySelectorAll('.format-btn');
 

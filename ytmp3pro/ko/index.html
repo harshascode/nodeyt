@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta content="온라인 YouTube MP3 변환기로 YouTube 동영상을 MP3 또는 MP4 파일로 다운로드하세요. Ytmp3는 가입, 구독, 소프트웨어 설치가 필요하지 않습니다." name="description">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ytmp3 - 무료 YouTube MP3 변환기</title>
+<meta content="index, follow" name="robots">
+<link href="/public/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
+<link href="/public/favicon.svg" rel="icon" type="image/svg+xml">
+<link href="/public/favicon.ico" rel="shortcut icon">
+<link href="/public/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+<meta content="YtMp3" name="apple-mobile-web-app-title">
+<link href="/public/site.webmanifest" rel="manifest">
+<link href="https://ytmp3.pro/ko/" rel="canonical">
+<link href="/style.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-W46PKWV3E5"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-W46PKWV3E5');
+    </script>
+</head>
+<body>
+<div class="header">
+<div>
+<a href="/ko/" style="display: flex; align-items: center;">
+<svg class="lucide lucide-cat-icon lucide-cat" fill="none" height="24" stroke="#155dfc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<g style="transform-box:fill-box;transform-origin:12px 12px;animation:bob 3s ease-in-out infinite">
+<path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7s4.72.23 6.5 2.23A9 9 0 0 1 12 5"></path>
+<path d="M8 14v.5m8-.5v.5" style="transform-box:fill-box;transform-origin:center;animation:blink 4s ease-in-out infinite"></path>
+<path d="M11.25 16.25h1.5L12 17z"></path>
+</g>
+</svg>
+<span style="font-weight: 600;">YTMP3<span style="color: rgb(78, 78, 238); font-style: italic;">.pro</span></span>
+</a>
+</div>
+<div><a href="/ko/">홈</a><a href="/faq/">FAQ</a><a href="/bookmarklet/">북마클릿</a><div class="lang-switcher"><select class="lang-select" aria-label="Language selector" onchange="localStorage.setItem('ytmp3-lang', this.value); if (this.value) window.location.href = this.value;"><option value="/">English</option><option value="/hi/">हिन्दी</option><option value="/fr/">Français</option><option value="/es/">Español</option><option value="/de/">Deutsch</option><option value="/pt/">Português</option><option value="/ru/">Русский</option><option value="/ja/">日本語</option><option value="/ko/" selected>한국어</option><option value="/zh/">中文</option><option value="/ar/">العربية</option><option value="/it/">Italiano</option><option value="/tr/">Türkçe</option><option value="/nl/">Nederlands</option><option value="/id/">Bahasa Indonesia</option></select></div></div>
+</div>
+<form autocomplete="off" method="post" onsubmit="event.preventDefault(); handleFormSubmit();">
+<div class="form_title"><label for="video">YouTube 링크를 붙여넣으세요</label></div>
+<!-- Standard Input (Visible by default) -->
+<div class="form_input" id="inputContainer">
+<input autofocus="" id="videoUrl" name="video" placeholder="youtube.com/watch?v=ytmp3" required="" type="text">
+</div>
+<!-- Progress/Status Area (Replaces input, hidden by default) -->
+<div class="form_input--progress" id="progressContainer" style="display: none;">
+<div class="form_loader" id="spinner"></div>
+<span id="status"></span>
+</div>
+<div class="video_preview" id="videoPreview" style="display: none;">
+<img alt="동영상 썸네일" id="videoThumbnail" src="">
+<div>
+<h3 id="videoTitle">동영상 제목</h3>
+<p id="videoAuthor">동영상 작성자</p>
+<p id="videoDuration">동영상 길이</p>
+</div>
+</div>
+<div class="form_actions">
+<!-- Format Toggle (Visible by default) -->
+<div class="form_formats" id="formatToggle">
+<button class="format-btn active" data-format="mp3" type="button">MP3</button>
+<button class="format-btn" data-format="mp4" type="button">MP4</button>
+</div>
+<!-- Download More Button (Hidden by default, reloads page on click) -->
+<button class="more" id="downloadMoreBtn" onclick="window.location.reload();" style="display: none;" type="button">더 다운로드</button>
+<!-- Main Download Button -->
+<button id="downloadBtn" type="submit">다운로드</button>
+</div>
+</form>
+<div class="text">
+<h1>YouTube MP3 변환기</h1>
+<p>Ytmp3는 YouTube 동영상을 MP3 또는 MP4 파일로 다운로드할 수 있는 온라인 YouTube MP3 변환기입니다. 가입이나 구독이 필요 없으며 무료로 사용할 수 있습니다. Ytmp3는 일반적인 브라우저와 모든 기기에서 앱이나 소프트웨어 설치 없이 작동하도록 최적화되어 있습니다. 본 서비스를 사용하면 다음 <a href="/terms-of-use/">이용 약관</a>.</p>
+<h2>YouTube 동영상을 다운로드하는 방법</h2>
+<ol>
+<li>YouTube로 이동해 다운로드하려는 동영상을 찾으세요.</li>
+<li>동영상 링크를 복사하세요.</li>
+<li>위의 변환기에 동영상 링크를 붙여넣으세요.</li>
+<li>다운로드 형식을 선택하세요. MP3와 MP4 중에서 고를 수 있습니다.</li>
+<li>변환 버튼을 클릭하세요.</li>
+<li>변환이 시작되며 시간이 조금 걸릴 수 있습니다. 작업이 완료되면 선택한 형식으로 YouTube 동영상을 다운로드할 수 있습니다.</li>
+</ol>
+<p>YouTube MP3 변환기를 이용해 주셔서 감사합니다.</p>
+</div>
+<div class="footer">
+<div><a href="/contact/">문의</a><a href="/copyright-claims/">저작권 신고</a><a href="/privacy-policy/">개인정보처리방침</a><a href="/terms-of-use/">이용 약관</a></div>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ytmp3","alternateName":["YouTube MP3","YouTube to MP3","YouTube to MP3 Converter","YouTube Converter","YouTube Downloader","ytmp3"],"url":"https://ytmp3.pro/ko/"}</script>
+<script src="/script.js"></script>
+</body>
+</html>

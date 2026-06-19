@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta content="Laden Sie YouTube-Videos als MP3- oder MP4-Dateien mit unserem Online-YouTube-zu-MP3-Konverter herunter. Ytmp3 erfordert keine Anmeldung, kein Abonnement und keine Software." name="description">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ytmp3 - Kostenloser YouTube-zu-MP3-Konverter</title>
+<meta content="index, follow" name="robots">
+<link href="/public/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
+<link href="/public/favicon.svg" rel="icon" type="image/svg+xml">
+<link href="/public/favicon.ico" rel="shortcut icon">
+<link href="/public/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+<meta content="YtMp3" name="apple-mobile-web-app-title">
+<link href="/public/site.webmanifest" rel="manifest">
+<link href="https://ytmp3.pro/de/" rel="canonical">
+<link href="/style.css" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-W46PKWV3E5"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-W46PKWV3E5');
+    </script>
+</head>
+<body>
+<div class="header">
+<div>
+<a href="/de/" style="display: flex; align-items: center;">
+<svg class="lucide lucide-cat-icon lucide-cat" fill="none" height="24" stroke="#155dfc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<g style="transform-box:fill-box;transform-origin:12px 12px;animation:bob 3s ease-in-out infinite">
+<path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7s4.72.23 6.5 2.23A9 9 0 0 1 12 5"></path>
+<path d="M8 14v.5m8-.5v.5" style="transform-box:fill-box;transform-origin:center;animation:blink 4s ease-in-out infinite"></path>
+<path d="M11.25 16.25h1.5L12 17z"></path>
+</g>
+</svg>
+<span style="font-weight: 600;">YTMP3<span style="color: rgb(78, 78, 238); font-style: italic;">.pro</span></span>
+</a>
+</div>
+<div><a href="/de/">Startseite</a><a href="/faq/">FAQ</a><a href="/bookmarklet/">Bookmarklet</a><div class="lang-switcher"><select class="lang-select" aria-label="Language selector" onchange="localStorage.setItem('ytmp3-lang', this.value); if (this.value) window.location.href = this.value;"><option value="/">English</option><option value="/hi/">हिन्दी</option><option value="/fr/">Français</option><option value="/es/">Español</option><option value="/de/" selected>Deutsch</option><option value="/pt/">Português</option><option value="/ru/">Русский</option><option value="/ja/">日本語</option><option value="/ko/">한국어</option><option value="/zh/">中文</option><option value="/ar/">العربية</option><option value="/it/">Italiano</option><option value="/tr/">Türkçe</option><option value="/nl/">Nederlands</option><option value="/id/">Bahasa Indonesia</option></select></div></div>
+</div>
+<form autocomplete="off" method="post" onsubmit="event.preventDefault(); handleFormSubmit();">
+<div class="form_title"><label for="video">Fügen Sie Ihren YouTube-Link ein</label></div>
+<!-- Standard Input (Visible by default) -->
+<div class="form_input" id="inputContainer">
+<input autofocus="" id="videoUrl" name="video" placeholder="youtube.com/watch?v=ytmp3" required="" type="text">
+</div>
+<!-- Progress/Status Area (Replaces input, hidden by default) -->
+<div class="form_input--progress" id="progressContainer" style="display: none;">
+<div class="form_loader" id="spinner"></div>
+<span id="status"></span>
+</div>
+<div class="video_preview" id="videoPreview" style="display: none;">
+<img alt="Video-Vorschaubild" id="videoThumbnail" src="">
+<div>
+<h3 id="videoTitle">Videotitel</h3>
+<p id="videoAuthor">Videoautor</p>
+<p id="videoDuration">Videodauer</p>
+</div>
+</div>
+<div class="form_actions">
+<!-- Format Toggle (Visible by default) -->
+<div class="form_formats" id="formatToggle">
+<button class="format-btn active" data-format="mp3" type="button">MP3</button>
+<button class="format-btn" data-format="mp4" type="button">MP4</button>
+</div>
+<!-- Download More Button (Hidden by default, reloads page on click) -->
+<button class="more" id="downloadMoreBtn" onclick="window.location.reload();" style="display: none;" type="button">Mehr herunterladen</button>
+<!-- Main Download Button -->
+<button id="downloadBtn" type="submit">Herunterladen</button>
+</div>
+</form>
+<div class="text">
+<h1>YouTube-zu-MP3-Konverter</h1>
+<p>Ytmp3 ist ein Online-YouTube-zu-MP3-Konverter, mit dem Sie YouTube-Videos als MP3- oder MP4-Dateien herunterladen können. Unser Konverter ist kostenlos und erfordert keine Anmeldung oder Abonnement. Ytmp3 ist optimiert, um in allen gängigen Browsern und auf allen Geräten ohne Installation einer App oder Software zu funktionieren. Durch die Nutzung unseres Dienstes akzeptieren Sie unsere <a href="/terms-of-use/">Nutzungsbedingungen</a>.</p>
+<h2>So laden Sie ein YouTube-Video herunter</h2>
+<ol>
+<li>Gehen Sie zu YouTube und suchen Sie das Video, das Sie herunterladen möchten.</li>
+<li>Kopieren Sie den Videolink.</li>
+<li>Fügen Sie den Videolink in unseren Konverter oben ein.</li>
+<li>Wählen Sie ein Download-Format. Sie können zwischen MP3 und MP4 wählen.</li>
+<li>Klicken Sie auf die Schaltfläche Konvertieren.</li>
+<li>Die Konvertierung beginnt und kann eine Weile dauern. Sobald der Vorgang abgeschlossen ist, können Sie das YouTube-Video im gewählten Format herunterladen.</li>
+</ol>
+<p>Danke, dass Sie unseren YouTube-zu-MP3-Konverter verwenden.</p>
+</div>
+<div class="footer">
+<div><a href="/contact/">Kontakt</a><a href="/copyright-claims/">Urheberrechtsansprüche</a><a href="/privacy-policy/">Datenschutzrichtlinie</a><a href="/terms-of-use/">Nutzungsbedingungen</a></div>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Ytmp3","alternateName":["YouTube MP3","YouTube to MP3","YouTube to MP3 Converter","YouTube Converter","YouTube Downloader","ytmp3"],"url":"https://ytmp3.pro/de/"}</script>
+<script src="/script.js"></script>
+</body>
+</html>

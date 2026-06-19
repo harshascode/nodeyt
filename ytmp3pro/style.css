@@ -1,0 +1,356 @@
+        body {
+            background-color: #fafafa;
+            background-image: linear-gradient(#121212 168px, transparent 168px);
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        input,
+        button {
+            font-family: inherit;
+        }
+
+        .header {
+            max-width: 640px;
+            margin: 0 auto;
+            padding-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header span {
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        .header a {
+            color: #b4b4b4;
+            text-decoration: none;
+            margin-right: 16px;
+        }
+
+        .header a:last-child {
+            margin-right: 0;
+        }
+
+        form {
+            background-color: #ffffff;
+            max-width: 640px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+            margin: 32px auto 0 auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-sizing: border-box;
+        }
+
+        form button,
+        form input {
+            height: 48px;
+            border-radius: 6px;
+        }
+
+        .form_title {
+            color: #363636;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .form_input input {
+            color: #595959;
+            background-color: #fafafa;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #e2e2e2;
+            padding: 0 12px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form_actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form_formats {
+            background-color: #fafafa;
+            border: 1px solid #e2e2e2;
+            height: 48px;
+            border-radius: 6px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-sizing: border-box;
+        }
+
+        .form_formats button[type="button"] {
+            color: #494949;
+            background-color: transparent;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            height: 34px;
+            padding: 0 24px;
+            cursor: pointer;
+        }
+
+        .form_formats button[type="button"].active {
+            color: #ffffff;
+            background-color: #121212;
+        }
+
+        .form_actions button[type="submit"] {
+            color: #ffffff;
+            background-color: #d62828;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            padding: 0 24px;
+        }
+
+        .form_input--progress {
+            color: #595959;
+            background-color: #fafafa;
+            width: 100%;
+            min-height: 48px;
+            border: 1px solid #e2e2e2;
+            border-radius: 6px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: left;
+            box-sizing: border-box;
+        }
+
+        .video_preview {
+            background-color: #fafafa;
+            border: 1px solid #e2e2e2;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .video_preview img {
+            width: 160px;
+            max-width: 40%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 6px;
+            background-color: #e2e2e2;
+        }
+
+        .video_preview h3 {
+            color: #363636;
+            font-size: 16px;
+            line-height: 20px;
+            margin: 0 0 8px 0;
+        }
+
+        .video_preview p {
+            color: #595959;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        .form_loader {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e2e2e2;
+            border-top-color: #d62828;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .more {
+            color: #363636;
+            background-color: #ffffff;
+            font-size: 16px;
+            border: 1px solid #e2e2e2;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
+        #downloadBtn {
+            color: white;
+            background-color: #d62828;
+            font-size: 16px;
+            border: 1px solid #e2e2e2;
+            padding: 0 14px;
+            cursor: pointer;
+        }
+
+        .form_actions--download {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form_actions--download button.more {
+            color: #363636;
+            background-color: #ffffff;
+            font-size: 16px;
+            border: 1px solid #e2e2e2;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
+        .form_actions--download button.more:disabled {
+            color: #b4b4b4;
+            background-color: #fafafa;
+            cursor: not-allowed;
+        }
+
+        .form_actions--download button.download {
+            color: #ffffff;
+            background-color: #d62828;
+            font-size: 16px;
+            border: none;
+            padding: 0 24px;
+            cursor: pointer;
+        }
+
+        .form_actions--download button.download:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        .form__error--title {
+            color: #363636;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 16px;
+        }
+
+        .form__error--message {
+            color: #595959;
+            background-color: #fafafa;
+            font-size: 16px;
+            line-height: 48px;
+            height: 48px;
+            border: 1px solid #e2e2e2;
+            border-radius: 6px;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .form__error--button {
+            display: flex;
+            justify-content: right;
+        }
+
+        .form__error--button button {
+            color: #ffffff;
+            background-color: #d62828;
+            font-size: 16px;
+            border: none;
+            padding: 0 24px;
+            cursor: pointer;
+        }
+
+        .text {
+            color: #494949;
+            max-width: 640px;
+            margin: 48px auto 0 auto;
+        }
+
+        .text h1 {
+            color: #363636;
+            font-size: 24px;
+            line-height: 24px;
+            margin: 0;
+        }
+
+        .text h2 {
+            color: #363636;
+            font-size: 20px;
+            line-height: 20px;
+            margin: 24px 0 16px 0;
+        }
+
+        .text p {
+            font-size: 14px;
+            line-height: 24px;
+            margin: 16px 0 0 0;
+        }
+
+        .text p.b {
+            font-weight: bold;
+        }
+
+        .text a {
+            color: #494949;
+        }
+
+        .text ol {
+            list-style-position: inside;
+            margin: 8px 0 0 0;
+            padding: 0;
+        }
+
+        .text li {
+            line-height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .text li::marker {
+            font-weight: bold;
+        }
+
+        .text li:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            border-top: 1px solid #e2e2e2;
+            margin-top: 48px;
+        }
+
+        .footer div {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 24px 0;
+        }
+
+        .footer a {
+            color: #363636;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        @media (max-width:640px) {
+            .header {
+                padding: 16px 4% 0 4%;
+            }
+
+            .header a:nth-of-type(3),
+            .header a:nth-of-type(4) {
+                display: none;
+            }
+
+            form {
+                margin: 32px 4% 0 4%;
+            }
+
+            .text {
+                margin: 48px 4% 0 4%;
+            }
+        }

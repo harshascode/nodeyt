@@ -6,7 +6,7 @@
     <priority>1.00</priority>
 </url>
 <url>
-    <loc>https://ytmp3.pro/about</loc>
+    <loc>https://ytmp3.pro/about/</loc>
     <lastmod>2025-09-19T08:20:15+00:00</lastmod>
     <priority>0.80</priority>
 </url>
@@ -16,12 +16,12 @@
     <priority>0.80</priority>
 </url>
 <url>
-    <loc>https://ytmp3.pro/contact</loc>
+    <loc>https://ytmp3.pro/contact/</loc>
     <lastmod>2025-09-19T08:20:15+00:00</lastmod>
     <priority>0.80</priority>
 </url>
 <url>
-    <loc>https://ytmp3.pro/terms-and-copyright</loc>
+    <loc>https://ytmp3.pro/terms-and-copyright/</loc>
     <lastmod>2025-09-19T08:20:15+00:00</lastmod>
     <priority>0.80</priority>
 </url>
@@ -167,6 +167,26 @@
 </url>
 <url>
     <loc>https://ytmp3.pro/he/</loc>
+    <lastmod>2025-09-19T08:20:15+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://ytmp3.pro/about//</loc>
+    <lastmod>2025-09-19T08:20:15+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://ytmp3.pro/contact//</loc>
+    <lastmod>2025-09-19T08:20:15+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://ytmp3.pro/faq//</loc>
+    <lastmod>2025-09-19T08:20:15+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://ytmp3.pro/terms-and-copyright//</loc>
     <lastmod>2025-09-19T08:20:15+00:00</lastmod>
     <priority>0.80</priority>
 </url>

@@ -268,15 +268,15 @@
         }
 
         .form__error--message {
-            color: #595959;
-            background-color: #fafafa;
-            font-size: 16px;
-            line-height: 48px;
-            height: 48px;
-            border: 1px solid #e2e2e2;
+            color: #b42318;
+            background-color: #fff5f5;
+            font-size: 14px;
+            line-height: 20px;
+            border: 1px solid #f5c2c7;
             border-radius: 6px;
-            padding: 0 12px;
+            padding: 12px;
             box-sizing: border-box;
+            margin-top: -4px;
         }
 
         .form__error--button {

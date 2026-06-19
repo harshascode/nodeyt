@@ -97,6 +97,10 @@ function autoRedirectLanguage() {
 
 autoRedirectLanguage();
 
+const videoUrlInput = document.getElementById('videoUrl');
+videoUrlInput.addEventListener('input', hideValidationError);
+videoUrlInput.addEventListener('focus', hideValidationError);
+
 // 1. Handle the MP3/MP4 Toggle
 const formatButtons = document.querySelectorAll('.format-btn');
 
@@ -114,33 +118,90 @@ let outageRedirectTimer = null;
 let outageCountdownTimer = null;
 
 function extractVideoQuery(input) {
-    try {
-        const url = new URL(input);
+    const raw = String(input || '').trim();
+    if (!raw) return '';
 
-        if (url.hostname.includes('youtu.be')) {
+    let normalized = raw;
+    if (!/^(https?:)?\/\//i.test(normalized)) {
+        if (/^(www\.)?(youtube\.com|youtu\.be|m\.youtube\.com|music\.youtube\.com)\//i.test(normalized)) {
+            normalized = `https://${normalized}`;
+        } else {
+            return '';
+        }
+    }
+
+    try {
+        const url = new URL(normalized);
+        const host = url.hostname.toLowerCase();
+
+        if (!(host === 'youtu.be' || host.endsWith('.youtu.be') || host.includes('youtube.com'))) {
+            return '';
+        }
+
+        if (host === 'youtu.be' || host.endsWith('.youtu.be')) {
             return url.pathname.split('/').filter(Boolean)[0] || '';
         }
 
-        if (url.searchParams.has('v')) {
-            return url.searchParams.get('v');
+        if (url.pathname === '/watch' && url.searchParams.has('v')) {
+            return url.searchParams.get('v') || '';
         }
 
         const shortsMatch = url.pathname.match(/\/(shorts|embed|live)\/([^/?#]+)/);
         if (shortsMatch) {
-            return shortsMatch[2];
+            return shortsMatch[2] || '';
         }
     } catch (error) {
-        // User may paste only the video id/search query.
+        return '';
     }
 
-    return input.replace(/^.*(?:v=|youtu\.be\/|shorts\/|embed\/|live\/)/, '').split(/[?&#]/)[0].trim();
+    return '';
 }
 
 function setLoading(message) {
+    hideValidationError();
     document.getElementById('inputContainer').style.display = 'none';
     document.getElementById('progressContainer').style.display = 'flex';
     document.getElementById('spinner').style.display = 'block';
     document.getElementById('status').innerText = message;
+}
+
+function ensureValidationErrorElement() {
+    let errorEl = document.getElementById('formError');
+    if (!errorEl) {
+        errorEl = document.createElement('div');
+        errorEl.id = 'formError';
+        errorEl.className = 'form__error--message';
+        errorEl.setAttribute('role', 'alert');
+        errorEl.style.display = 'none';
+        const inputContainer = document.getElementById('inputContainer');
+        inputContainer.parentNode.insertBefore(errorEl, inputContainer.nextSibling);
+    }
+    return errorEl;
+}
+
+function showValidationError(message) {
+    const errorEl = ensureValidationErrorElement();
+    errorEl.innerText = message;
+    errorEl.style.display = 'block';
+}
+
+function hideValidationError() {
+    const errorEl = document.getElementById('formError');
+    if (errorEl) errorEl.style.display = 'none';
+}
+
+function closeOutagePopup() {
+    if (outageRedirectTimer) {
+        clearTimeout(outageRedirectTimer);
+        outageRedirectTimer = null;
+    }
+    if (outageCountdownTimer) {
+        clearInterval(outageCountdownTimer);
+        outageCountdownTimer = null;
+    }
+
+    const overlay = document.getElementById('outageOverlay');
+    if (overlay) overlay.remove();
 }
 
 function showOutagePopup() {
@@ -149,8 +210,9 @@ function showOutagePopup() {
         overlay = document.createElement('div');
         overlay.id = 'outageOverlay';
         overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:99999;padding:16px;box-sizing:border-box;';
-        overlay.innerHTML = '<div style="background:#fff;max-width:420px;width:100%;border-radius:12px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25);font-family:Arial,sans-serif;text-align:center;"><h2 style="margin:0 0 12px;color:#121212;">Website currently unavailable</h2><p id="outageMessage" style="margin:0 0 8px;color:#4b4b4b;line-height:1.5;">Redirecting you to cnvmp3.com in 3 seconds...</p><p style="margin:0;color:#7a7a7a;font-size:13px;">Please wait while we move you to the working download page.</p></div>';
+        overlay.innerHTML = '<div style="position:relative;background:#fff;max-width:420px;width:100%;border-radius:12px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25);font-family:Arial,sans-serif;text-align:center;"><button type="button" aria-label="Close popup" id="outageCloseBtn" style="position:absolute;top:10px;right:10px;border:none;background:transparent;font-size:24px;line-height:1;color:#7a7a7a;cursor:pointer;padding:4px;">×</button><h2 style="margin:0 0 12px;color:#121212;">Website currently unavailable</h2><p id="outageMessage" style="margin:0 0 8px;color:#4b4b4b;line-height:1.5;">Redirecting you to cnvmp3.com in 5 seconds...</p><p style="margin:0;color:#7a7a7a;font-size:13px;">Please wait while we move you to the working download page.</p></div>';
         document.body.appendChild(overlay);
+        overlay.querySelector('#outageCloseBtn').addEventListener('click', closeOutagePopup);
     }
     return overlay;
 }
@@ -160,15 +222,13 @@ function startOutageRedirect() {
 
     const overlay = showOutagePopup();
     const message = overlay.querySelector('#outageMessage');
-    let seconds = 3;
+    let seconds = 5;
     message.innerText = `Redirecting you to cnvmp3.com in ${seconds} seconds...`;
 
     outageCountdownTimer = window.setInterval(() => {
         seconds -= 1;
         if (seconds <= 0) {
-            clearInterval(outageCountdownTimer);
-            outageCountdownTimer = null;
-            message.innerText = 'Redirecting now...';
+            closeOutagePopup();
             window.location.href = OUTAGE_REDIRECT_URL;
             return;
         }
@@ -176,8 +236,9 @@ function startOutageRedirect() {
     }, 1000);
 
     outageRedirectTimer = window.setTimeout(() => {
+        closeOutagePopup();
         window.location.href = OUTAGE_REDIRECT_URL;
-    }, 3000);
+    }, 5000);
 }
 
 function setDownloadButtons() {
@@ -195,7 +256,9 @@ function setDownloadButtons() {
 
 function showError(message) {
     document.getElementById('spinner').style.display = 'none';
-    document.getElementById('status').innerText = message;
+    document.getElementById('progressContainer').style.display = 'none';
+    document.getElementById('inputContainer').style.display = 'block';
+    showValidationError(message);
     const mainBtn = document.getElementById('downloadBtn');
     mainBtn.disabled = false;
     mainBtn.style.opacity = '1';
@@ -205,11 +268,14 @@ function showError(message) {
 // 2. Form Submission Handler
 async function handleFormSubmit() {
     const urlInput = document.getElementById('videoUrl').value.trim();
-    if (!urlInput) return;
+    if (!urlInput) {
+        showError('Please enter a YouTube video URL.');
+        return;
+    }
 
     const query = extractVideoQuery(urlInput);
     if (!query) {
-        showError('Please enter a valid YouTube video link.');
+        showError('Please enter a valid YouTube video URL.');
         return;
     }
 
